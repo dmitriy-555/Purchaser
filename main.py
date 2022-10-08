@@ -1,3 +1,5 @@
+
+пидоры
 from kivy.lang import Builder
 from kivymd.uix.boxlayout import MDBoxLayout
 # from kivy.properties import StringProperty, ListProperty
@@ -68,16 +70,23 @@ class TestNavigationDrawer(MDApp):
     title = "Purchaser"
     by_who = "by sssss"
     index = 2
+    ccru = 1
     name_tab = "Добавление мероприятия"
     dir_list = []
     data_on_bd = {}
     event_item = {
-        "Понедельник": "Нажмите для подробностей"
+        "Понедельник": "Нажмите для подробностей", "котик": "Нажмите для подробностей", "день рождения": "Нажмите для подробностей"
     }
-    event_item2 = {
-        "день рождения": "Нажмите для подробностей"
+
+    event_item_test = {
+        "просмотр аниме": "Нажмите для подробностей"
     }
+
     image_path = ""
+
+
+    # def test_radaction_data(self):
+    #     if
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -107,26 +116,7 @@ class TestNavigationDrawer(MDApp):
         return Builder.load_file('my.kv')
 
     def on_start(self):
-        #self.test_data_base()
-        for items in self.event_item.keys():
-            self.root.ids.event_list.add_widget(MDExpansionPanel(icon="dish/e1.png",
-                                                                 content=Content(text='просто так',
-                                                                                 secondary_text='Это образец'),
-                                                                 panel_cls=MDExpansionPanelTwoLine(
-                                                                     text=items,
-                                                                     #  secondary_text=self.root.ids.text_user2.text
-                                                                     secondary_text=self.event_item[items]
-                                                                 )))
-
-        for items in self.event_item2.keys():
-            self.root.ids.event_list.add_widget(MDExpansionPanel(icon="dish/e2.png",
-                                                                 content=Content(text='просто так',
-                                                                                 secondary_text='Это образец но 2'),
-                                                                 panel_cls=MDExpansionPanelTwoLine(
-                                                                     text=items,
-                                                                     #secondary_text=self.root.ids.text_user2.text
-                                                                     secondary_text=self.event_item2[items]
-                                                                 )))
+        self.record_on_data()
 
         conn = sqlite3.connect("fgh.db")
 
@@ -137,8 +127,6 @@ class TestNavigationDrawer(MDApp):
                             name text) 
                          """)
         pudge.execute("SELECT name FROM eventbase")
-        self.event_item = pudge.fetchall()
-        print(self.event_item)
 
         conn.commit()
 
@@ -193,45 +181,33 @@ class TestNavigationDrawer(MDApp):
             self.root.ids.text_user3.text = ""
             self.image_path = ""
 
-    def test_data_base(self):
+    def record_on_data(self):
+
         conn = sqlite3.connect("fgh.db")
 
         pudge = conn.cursor()
 
         pudge.execute("SELECT * FROM eventbase")
         records = pudge.fetchall()
-
-
         for record in records:
-            self.data_on_bd = record[0]
-            print(self.data_on_bd)
 
-        conn.commit()
-
-        conn.close()
-
-    def test_print_data(self):
-        conn = sqlite3.connect("fgh.db")
-
-        pudge = conn.cursor()
-
-        pudge.execute("SELECT * FROM eventbase")
-        records = pudge.fetchall()
-
-
-        for record in records:
-            self.data_on_bd = record[0]
-            print(self.data_on_bd)
-
-        conn.commit()
-
-        conn.close()
-
-
-
-
-
-
+            self.event_item_test[record[0]] = "Нажмите для подробностей"
+        for items in self.event_item.keys():
+            self.root.ids.event_list.add_widget(MDExpansionPanel(icon="dish/e1.png",
+                                                                 content=Content(text='просто так',
+                                                                                 secondary_text='Это образец'),
+                                                                 panel_cls=MDExpansionPanelTwoLine(
+                                                                     text=items,
+                                                                     secondary_text=self.event_item[items]
+                                                                 )))
+        for items in self.event_item_test.keys():
+            self.root.ids.event_list.add_widget(MDExpansionPanel(icon="dish/e2.png",
+                                                                 content=Content(text='просто так',
+                                                                                 secondary_text='Это образец но 2'),
+                                                                 panel_cls=MDExpansionPanelTwoLine(
+                                                                     text=items,
+                                                                     secondary_text=self.event_item_test[items]
+                                                                 )))
 
 
 
@@ -240,7 +216,7 @@ class TestNavigationDrawer(MDApp):
 
         pudge = conn.cursor()
 
-        pudge.execute("DELETE FROM eventbase WHERE rowid > 0")
+        pudge.execute("DELETE FROM eventbase WHERE rowid > 1")
 
         #ниже_обновление_данных
         # pudge.execute("UPDATE eventbase SET fgh = хз че тут ну там типа обновление строки в табл. для изменения блюда")
