@@ -1,5 +1,3 @@
-
-пидоры
 from kivy.lang import Builder
 from kivymd.uix.boxlayout import MDBoxLayout
 # from kivy.properties import StringProperty, ListProperty
