@@ -28,6 +28,8 @@ from kivy.uix.label import Label
 
 import sqlite3
 
+import requests
+
 Window.size = (400, 600)
 
 
@@ -72,9 +74,7 @@ class TestNavigationDrawer(MDApp):
     name_tab = "Добавление мероприятия"
     dir_list = []
     data_on_bd = {}
-    event_item = {
-        "Понедельник": "Нажмите для подробностей", "котик": "Нажмите для подробностей", "день рождения": "Нажмите для подробностей"
-    }
+
 
     event_item_test = {
         "просмотр аниме": "Нажмите для подробностей"
@@ -83,8 +83,6 @@ class TestNavigationDrawer(MDApp):
     image_path = ""
 
 
-    # def test_radaction_data(self):
-    #     if
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -188,19 +186,12 @@ class TestNavigationDrawer(MDApp):
         pudge.execute("SELECT * FROM eventbase")
         records = pudge.fetchall()
         for record in records:
-
             self.event_item_test[record[0]] = "Нажмите для подробностей"
-        for items in self.event_item.keys():
-            self.root.ids.event_list.add_widget(MDExpansionPanel(icon="dish/e1.png",
-                                                                 content=Content(text='просто так',
-                                                                                 secondary_text='Это образец'),
-                                                                 panel_cls=MDExpansionPanelTwoLine(
-                                                                     text=items,
-                                                                     secondary_text=self.event_item[items]
-                                                                 )))
+
+
         for items in self.event_item_test.keys():
-            self.root.ids.event_list.add_widget(MDExpansionPanel(icon="dish/e2.png",
-                                                                 content=Content(text='просто так',
+            self.root.ids.event_list.add_widget(MDExpansionPanel(icon="dish/b9.jpg",
+                                                                 content=Content(text='просто так проверка',
                                                                                  secondary_text='Это образец но 2'),
                                                                  panel_cls=MDExpansionPanelTwoLine(
                                                                      text=items,
@@ -214,7 +205,7 @@ class TestNavigationDrawer(MDApp):
 
         pudge = conn.cursor()
 
-        pudge.execute("DELETE FROM eventbase WHERE rowid > 1")
+        pudge.execute("DELETE FROM eventbase WHERE rowid > 2")
 
         #ниже_обновление_данных
         # pudge.execute("UPDATE eventbase SET fgh = хз че тут ну там типа обновление строки в табл. для изменения блюда")
