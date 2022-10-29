@@ -128,6 +128,21 @@ class TestNavigationDrawer(MDApp):
 
         conn.close()
 
+    def create_bd_for_image(self):
+        bd_image = sqlite3.connect("image.db")
+
+        rubick = bd_image.cursor()
+
+        rubick.execute("""CREATE TABLE IF NOT EXISTS image(
+                                    image_id INTEGER PRIMARY KEY ,
+                                    image BLOB NOT NULL) 
+                                 """)
+        rubick.execute("SELECT name FROM eventbase")
+
+        bd_image.commit()
+
+        bd_image.close()
+
     def on_save_event_click(self, text1, text2, text3):
 
         conn = sqlite3.connect("fgh.db")
