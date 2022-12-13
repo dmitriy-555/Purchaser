@@ -1,0 +1,490 @@
+
+<ContentNavigationDrawer>
+
+<dish_container>
+
+
+
+<Content>
+#    TwoLineIconListItem:
+#        text: "(050)-123-45-67"
+#        secondary_text: "Mobile"
+#
+#        IconLeftWidget:
+#            icon: 'phone'
+
+
+
+
+MDScreen:
+    screen_manager: screen_manager
+    nav_drawer: nav_drawer
+    MDNavigationLayout:
+        x: toolbar.height
+        MDScreenManager:
+            id: screen_manager
+            MDScreen:
+                name: "main_screen"
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    MDTopAppBar:
+                        id: toolbar
+                        title: app.title
+                        md_bg_color: 'FF9933'
+                        left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
+
+
+                    MDTabs:
+                        id: tabs
+                        height: "48dp"
+                        tab_indicator_anim: False
+                        background_color: "FF9933"
+                        #lock_swiping: True
+                        Tab:
+                            id: tab0
+                            title: "Мероприятия"
+                            MDBoxLayout:
+                                orientation: "vertical"
+                                ScrollView:
+                                    MDList:
+                                        padding: "5dp"
+                                        id: event_list
+
+                                MDBoxLayout:
+                                    md_bg_color: "FF9933"
+                                    adaptive_height: True
+
+                                    padding: 6
+                                    Widget:
+                                    MDRectangleFlatIconButton:
+                                        line_color: "FF9933" #0.9, 0.5, 0, 0.8
+                                        icon_color: 0, 0, 0, 1
+                                        text_color: 0, 0, 0, 1
+                                        md_bg_color: "ffffff"
+                                        text: "Добавить"
+                                        icon:"plus"
+                                        on_release:
+                                            root.screen_manager.current = "event_screen"
+                                            root.screen_manager.transition.direction = "left"
+
+
+                        Tab:
+                            id: tab1
+                            name: "tab1"
+                            title: "Блюда"
+
+                            MDBoxLayout:
+                                orientation: "vertical"
+                                ScrollView:
+                                    MDList:
+                                        id: list2
+                                        cols: 1
+                                        BaseListItem:
+                                            id: dish1
+                                            MDBoxLayout:
+                                                pos: dish1.pos
+                                                padding: 5
+                                                Image:
+                                                    source: "dish/b1.jpg"
+                                                    size_hint_x: 0.5
+                                                MDLabel:
+                                                    text: "Японские панкейки"
+
+                                        BaseListItem:
+                                            id: dish2
+                                            MDBoxLayout:
+                                                pos: dish2.pos
+                                                padding: 5
+                                                Image:
+                                                    source: "dish/b2.jpg"
+                                                    size_hint_x: 0.5
+                                                MDLabel:
+                                                    text: "Шоколадный вафельный торт с творожным кремом"
+
+                                        BaseListItem:
+                                            id: dish3
+                                            MDBoxLayout:
+                                                pos: dish3.pos
+                                                padding: 5
+                                                Image:
+                                                    source: "dish/b3.jpg"
+                                                    size_hint_x: 0.5
+                                                MDLabel:
+                                                    text: "Чуррос из французских тостов с апельсиновой глазурью"
+
+                                        BaseListItem:
+                                            id: dish4
+                                            MDBoxLayout:
+                                                pos: dish4.pos
+                                                padding: 5
+                                                Image:
+                                                    source: "dish/b4.jpg"
+                                                    size_hint_x: 0.5
+                                                MDLabel:
+                                                    text: "Пирог из слоёного теста с начинкой из пасты капеллини"
+
+                                        BaseListItem:
+                                            id: dish5
+                                            MDBoxLayout:
+                                                pos: dish5.pos
+                                                padding: 5
+                                                Image:
+                                                    source: "dish/b5.jpg"
+                                                    size_hint_x: 0.5
+                                                MDLabel:
+                                                    text: "Блинчики с мёдом и ягодами"
+
+                                        BaseListItem:
+                                            id: dish6
+                                            MDBoxLayout:
+                                                pos: dish6.pos
+                                                padding: 5
+                                                Image:
+                                                    source: "dish/b6.jpg"
+                                                    size_hint_x: 0.5
+                                                MDLabel:
+                                                    text: "Яблочные оладьи с корицей и ореховой дуккой"
+
+                                        BaseListItem:
+                                            id: dish7
+                                            MDBoxLayout:
+                                                pos: dish7.pos
+                                                padding: 5
+                                                Image:
+                                                    source: "dish/b7.jpg"
+                                                    size_hint_x: 0.5
+                                                MDLabel:
+                                                    text: "Нельма «Владычная» на гриле"
+
+                                        BaseListItem:
+                                            id: dish8
+                                            MDBoxLayout:
+                                                pos: dish8.pos
+                                                padding: 5
+                                                Image:
+                                                    source: "dish/b8.jpg"
+                                                    size_hint_x: 0.5
+                                                MDLabel:
+                                                    text: "Салат из мяса ягненка"
+
+                                        BaseListItem:
+                                            id: dish9
+                                            MDBoxLayout:
+                                                pos: dish9.pos
+                                                padding: 5
+                                                Image:
+                                                    source: "dish/b9.jpg"
+                                                    size_hint_x: 0.5
+                                                MDLabel:
+                                                    text: "Торт «Фрезье» с клубникой и заварным кремом"
+
+
+                                MDBoxLayout:
+                                    md_bg_color: "FF9933"
+                                    adaptive_height: True
+
+                                    padding: 6
+                                    Widget:
+
+                                    MDRectangleFlatIconButton:
+                                        line_color: "FF9933" #0.9, 0.5, 0, 0.8
+                                        icon_color: 0, 0, 0, 1
+                                        text_color: 0, 0, 0, 1
+                                        md_bg_color: "ffffff"
+                                        text: "Добавить"
+                                        icon:"plus"
+                                        on_release:
+                                            root.screen_manager.current = "dish_screen"
+                                            root.screen_manager.transition.direction = "left"
+                                            #app.delete_data()
+
+                        Tab:
+                            id: ingr
+                            name: "ingr"
+                            title: "Ингредиенты"
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                ScrollView:
+                                    MDList:
+                                        id: list3
+                                        cols: 1
+                                        BaseListItem:
+                                            id: ingr1
+                                            MDBoxLayout:
+                                                pos: ingr1.pos
+                                                padding: 5
+                                                Image:
+                                                    source: "dish/i1.jpg"
+                                                    size_hint_x: 1
+                                                MDLabel:
+                                                    text: "Сахар"
+
+                                        BaseListItem:
+                                            id: ingr2
+                                            MDBoxLayout:
+                                                pos: ingr2.pos
+                                                padding: 5
+                                                Image:
+                                                    source: "dish/i2.jpg"
+                                                    size_hint_x: 1
+                                                MDLabel:
+                                                    text: "Яичко"
+
+                                        BaseListItem:
+                                            id: ingr3
+                                            MDBoxLayout:
+                                                pos: ingr3.pos
+                                                padding: 5
+                                                Image:
+                                                    source: "dish/i3.jpg"
+                                                    size_hint_x: 1
+                                                MDLabel:
+                                                    text: "масло растительное"
+
+                                        BaseListItem:
+                                            id: ingr4
+                                            MDBoxLayout:
+                                                pos: ingr4.pos
+                                                padding: 5
+                                                Image:
+                                                    source: "dish/i4.jpg"
+                                                    size_hint_x: 1
+                                                MDLabel:
+                                                    text: "мука"
+
+                                        BaseListItem:
+                                            id: ingr5
+                                            MDBoxLayout:
+                                                pos: ingr5.pos
+                                                padding: 5
+                                                Image:
+                                                    source: "dish/i5.jpg"
+                                                    size_hint_x: 1
+                                                MDLabel:
+                                                    text: "разрыхлитель"
+
+                                        BaseListItem:
+                                            id: ingr6
+                                            MDBoxLayout:
+                                                pos: ingr6.pos
+                                                padding: 5
+                                                Image:
+                                                    source: "dish/i6.jpg"
+                                                    size_hint_x: 1
+                                                MDLabel:
+                                                    text: "яблоки"
+
+                                        BaseListItem:
+                                            id: ingr7
+                                            MDBoxLayout:
+                                                pos: ingr7.pos
+                                                padding: 5
+                                                Image:
+                                                    source: "dish/i7.jpg"
+                                                    size_hint_x: 1
+                                                MDLabel:
+                                                    text: "корица"
+
+                                        BaseListItem:
+                                            id: ingr8
+                                            MDBoxLayout:
+                                                pos: ingr8.pos
+                                                padding: 5
+                                                Image:
+                                                    source: "dish/i8.jpg"
+                                                    size_hint_x: 1
+                                                MDLabel:
+                                                    text: "ваниль"
+
+                                        BaseListItem:
+                                            id: ingr9
+                                            MDBoxLayout:
+                                                pos: ingr9.pos
+                                                padding: 5
+                                                Image:
+                                                    source: "dish/i9.jpg"
+                                                    size_hint_x: 1
+                                                MDLabel:
+                                                    text: "сливочное масло"
+
+                                        BaseListItem:
+                                            id: ingr10
+                                            MDBoxLayout:
+                                                pos: ingr10.pos
+                                                padding: 5
+                                                Image:
+                                                    source: "dish/i10.jpg"
+                                                    size_hint_x: 1
+                                                MDLabel:
+                                                    text: "шоколад"
+
+                                        BaseListItem:
+                                            id: ingr11
+                                            MDBoxLayout:
+                                                pos: ingr11.pos
+                                                padding: 5
+                                                Image:
+                                                    source: "dish/i11.jpg"
+                                                    size_hint_x: 1
+                                                MDLabel:
+                                                    text: "соль"
+
+                                        BaseListItem:
+                                            id: ingr12
+                                            MDBoxLayout:
+                                                pos: ingr12.pos
+                                                padding: 5
+                                                Image:
+                                                    source: "dish/i12.jpg"
+                                                    size_hint_x: 1
+                                                MDLabel:
+                                                    text: "молоко"
+                                MDBoxLayout:
+                                    md_bg_color: "FF9933"
+                                    adaptive_height: True
+
+                                    padding: 6
+                                    Widget:
+
+                                    MDRectangleFlatIconButton:
+                                        line_color: "FF9933" #0.9, 0.5, 0, 0.8
+                                        icon_color: 0, 0, 0, 1
+                                        text_color: 0, 0, 0, 1
+                                        md_bg_color: "ffffff"
+                                        text: "Добавить"
+                                        icon:"plus"
+                                        on_release:
+
+
+                                            app.test_data_base()
+
+
+            MDScreen:
+                name: "event_screen"
+                MDBoxLayout:
+                    orientation:"vertical"
+                    MDTopAppBar:
+                        id: toolbar1
+                        title: "Добавление мероприятия"
+                        md_bg_color: "FF9933"
+
+                    MDBoxLayout:
+                        padding: 5
+                        size_hint_y: 0.33
+                        MDTextField:
+                            id: text_user1
+                            hint_text: "Введите название"
+
+                    MDBoxLayout:
+                        padding: 5
+                        size_hint_y: 0.33
+                        MDTextField:
+                            id: text_user2
+                            hint_text: "Описание"
+
+                    MDBoxLayout:
+                        padding: 5
+                        size_hint_y: 0.33
+                        MDTextField:
+                            id: text_user3
+                            hint_text: "Дата"
+                            on_focus: if self.focus: app.show_date_picker()
+
+                    MDBoxLayout:
+                        size_hint_y: 0.2
+                        padding: 5
+                        MDRoundFlatIconButton:
+                            line_color: 0.9, 0.5, 0, 0.8
+                            icon_color: 0.9, 0.5, 0, 0.8
+                            text_color: 0.9, 0.5, 0, 0.8
+                            text: "Выбрать фото"
+                            icon: "folder"
+                            on_release: app.file_manager_open()
+
+
+                    MDBoxLayout:
+                        padding: 5
+                        MDFloatingActionButton:
+                            icon: "arrow-left"
+                            line_color: 0.9, 0.5, 0, 0.8
+                            md_bg_color: 1, 0.5, 0, 1
+                            on_release:
+                                root.screen_manager.transition.direction = "right"
+                                root.screen_manager.current = "main_screen"
+                                app.image_path = ""
+                        Widget:
+                        MDFloatingActionButton:
+                            icon: "content-save"
+                            line_color: 0.9, 0.5, 0, 0.8
+                            text_color: 1, 1, 1, 1
+                            md_bg_color: 1, 0.5, 0, 1
+                            on_release:
+                                app.on_save_event_click(text_user1.text, text_user2.text, text_user3.text)
+                                root.screen_manager.transition.direction = "right"
+
+            MDScreen:
+                name: "dish_screen"
+                MDBoxLayout:
+                    orientation:"vertical"
+                    MDTopAppBar:
+                        id: toolbar2
+                        title: "Добавление блюда"
+                        md_bg_color: "FF9933"
+
+                    MDBoxLayout:
+                        padding: 5
+                        size_hint_y: 0.33
+                        MDTextField:
+                            id: text_user_dish
+                            hint_text: "Введите название"
+
+                    MDBoxLayout:
+                        padding: 5
+                        size_hint_y: 0.33
+                        MDTextField:
+                            id: text_user_dish
+                            hint_text: "Цена"
+
+                    MDBoxLayout:
+                        size_hint_y: 0.2
+                        padding: 5
+                        MDRoundFlatIconButton:
+                            line_color: 0.9, 0.5, 0, 0.8
+                            icon_color: 0.9, 0.5, 0, 0.8
+                            text_color: 0.9, 0.5, 0, 0.8
+                            text: "Выбрать фото"
+                            icon: "folder"
+                            on_release: app.file_manager_open()
+
+                    MDBoxLayout:
+                        padding: 5
+                        MDFloatingActionButton:
+                            icon: "arrow-left"
+                            line_color: 0.9, 0.5, 0, 0.8
+                            md_bg_color: 1, 0.5, 0, 1
+                            on_release:
+                                root.screen_manager.transition.direction = "right"
+                                root.screen_manager.current = "main_screen"
+                                app.image_path = ""
+                        Widget:
+                        MDFloatingActionButton:
+                            icon: "content-save"
+                            line_color: 0.9, 0.5, 0, 0.8
+                            text_color: 1, 1, 1, 1
+                            md_bg_color: 1, 0.5, 0, 1
+                            on_release:
+                                # app.on_save_dish_click()
+                                root.screen_manager.transition.direction = "right"
+                                root.screen_manager.current = "main_screen"
+
+
+
+
+
+
+        MDNavigationDrawer:
+            id: nav_drawer
+            radius: (0, 16, 16, 0)
+            ContentNavigationDrawer:
+                screen_manager: screen_manager
+                nav_drawer: nav_drawer
