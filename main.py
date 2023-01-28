@@ -31,6 +31,7 @@ import requests
 
 Window.size = (400, 600)
 
+print("2")
 
 class event_screen(Screen):
     pass
