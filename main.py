@@ -31,7 +31,6 @@ import requests
 
 Window.size = (400, 600)
 
-print("2")
 
 class event_screen(Screen):
     pass
@@ -70,7 +69,7 @@ class TestNavigationDrawer(MDApp):
     title = "Purchaser"
     by_who = "by sssss"
     index = 2
-    ccru = 1
+    #ccru = 1 че это такое на приложение вроде не влияет
     name_tab = "Добавление мероприятия"
     dir_list = []
     data_on_bd = {}
