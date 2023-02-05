@@ -29,6 +29,10 @@ import sqlite3
 
 import requests
 
+import os
+import shutil
+from pathlib import Path
+
 Window.size = (400, 600)
 
 
@@ -128,20 +132,6 @@ class TestNavigationDrawer(MDApp):
 
         conn.close()
 
-    def create_bd_for_image(self):
-        bd_image = sqlite3.connect("image.db")
-
-        rubick = bd_image.cursor()
-
-        rubick.execute("""CREATE TABLE IF NOT EXISTS image(
-                                    image_id INTEGER PRIMARY KEY ,
-                                    image BLOB NOT NULL) 
-                                 """)
-        rubick.execute("SELECT name FROM eventbase")
-
-        bd_image.commit()
-
-        bd_image.close()
 
     def on_save_event_click(self, text1, text2, text3):
 
@@ -190,7 +180,11 @@ class TestNavigationDrawer(MDApp):
             self.root.ids.text_user1.text = ""
             self.root.ids.text_user2.text = ""
             self.root.ids.text_user3.text = ""
+            shutil.copy(self.image_path,"/Purchaser_a/image_event/")
             self.image_path = ""
+
+
+#НУ ЕБАТЬ БЫЛО БЫ НЕ ПЛОХО ВХУЯРИТЬ СЮДА КАКУЮ-НИБУДЬ ПРОВЕРКУ НА НАЛИЧИЕ ФОТО, ЕСЛИ ЕСТЬ ТО ЕСТЬ, ЕСЛИ НЕТ ТО ""
 
     def record_on_data(self):
 
@@ -204,8 +198,17 @@ class TestNavigationDrawer(MDApp):
             self.event_item_test[record[0]] = "Нажмите для подробностей"
 
 
+        directory = "/Purchaser_a/image_event/"
+        list_photo_event = []
+        for path in Path(directory).iterdir():
+            list_photo_event.append(path)
+        index_photo = -1
+        print(str(list_photo_event[index_photo]))
+
+
         for items in self.event_item_test.keys():
-            self.root.ids.event_list.add_widget(MDExpansionPanel(icon="dish/b9.jpg",
+            index_photo += 1
+            self.root.ids.event_list.add_widget(MDExpansionPanel(icon=str(list_photo_event[index_photo]),
                                                                  content=Content(text='просто так проверка',
                                                                                  secondary_text='Это образец но 2'),
                                                                  panel_cls=MDExpansionPanelTwoLine(
@@ -220,7 +223,7 @@ class TestNavigationDrawer(MDApp):
 
         pudge = conn.cursor()
 
-        pudge.execute("DELETE FROM eventbase WHERE rowid > 2")
+        pudge.execute("DELETE FROM eventbase WHERE rowid > 5")
 
         #ниже_обновление_данных
         # pudge.execute("UPDATE eventbase SET fgh = хз че тут ну там типа обновление строки в табл. для изменения блюда")
@@ -228,6 +231,7 @@ class TestNavigationDrawer(MDApp):
         conn.commit()
 
         conn.close()
+        print("Удаление выполнено")
 
     def on_save(self, instance, value, date_range):
         self.root.ids.text_user3.text = value.strftime("%d-%m-%Y")
