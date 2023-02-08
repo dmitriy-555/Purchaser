@@ -126,7 +126,6 @@ class TestNavigationDrawer(MDApp):
                             event_id INTEGER,
                             name text) 
                          """)
-        pudge.execute("SELECT name FROM eventbase")
 
         conn.commit()
 
@@ -184,19 +183,17 @@ class TestNavigationDrawer(MDApp):
             self.image_path = ""
 
 
-#НУ ЕБАТЬ БЫЛО БЫ НЕ ПЛОХО ВХУЯРИТЬ СЮДА КАКУЮ-НИБУДЬ ПРОВЕРКУ НА НАЛИЧИЕ ФОТО, ЕСЛИ ЕСТЬ ТО ЕСТЬ, ЕСЛИ НЕТ ТО ""
-
     def record_on_data(self):
 
         conn = sqlite3.connect("fgh.db")
 
         pudge = conn.cursor()
 
-        pudge.execute("SELECT * FROM eventbase")
+        pudge.execute("SELECT name FROM eventbase")
         records = pudge.fetchall()
+
         for record in records:
             self.event_item_test[record[0]] = "Нажмите для подробностей"
-
 
         directory = "/Purchaser_a/image_event/"
         list_photo_event = []
@@ -208,13 +205,22 @@ class TestNavigationDrawer(MDApp):
 
         for items in self.event_item_test.keys():
             index_photo += 1
-            self.root.ids.event_list.add_widget(MDExpansionPanel(icon=str(list_photo_event[index_photo]),
-                                                                 content=Content(text='просто так проверка',
-                                                                                 secondary_text='Это образец но 2'),
-                                                                 panel_cls=MDExpansionPanelTwoLine(
-                                                                     text=items,
-                                                                     secondary_text=self.event_item_test[items]
-                                                                 )))
+            try:
+                self.root.ids.event_list.add_widget(MDExpansionPanel(icon=str(list_photo_event[index_photo]),
+                                                                     content=Content(text='просто так проверка',
+                                                                                     secondary_text='Это образец но 2'),
+                                                                     panel_cls=MDExpansionPanelTwoLine(
+                                                                         text=items,
+                                                                         secondary_text=self.event_item_test[items]
+                                                                     )))
+            except IndexError:
+                self.root.ids.event_list.add_widget(MDExpansionPanel(icon="",
+                                                                     content=Content(text='просто так проверка',
+                                                                                     secondary_text='Это образец но 2'),
+                                                                     panel_cls=MDExpansionPanelTwoLine(
+                                                                         text=items,
+                                                                         secondary_text=self.event_item_test[items]
+                                                                     )))
 
 
 
@@ -226,7 +232,7 @@ class TestNavigationDrawer(MDApp):
         pudge.execute("DELETE FROM eventbase WHERE rowid > 5")
 
         #ниже_обновление_данных
-        # pudge.execute("UPDATE eventbase SET fgh = хз че тут ну там типа обновление строки в табл. для изменения блюда")
+        # pudge.execute("UPDATE eventbase SET fgh = обновление конкретной строки например чел хочет конкретно так изменить 5тое мероприятие")
 
         conn.commit()
 
