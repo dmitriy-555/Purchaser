@@ -79,9 +79,7 @@ class TestNavigationDrawer(MDApp):
     data_on_bd = {}
 
 
-    event_item_test = {
-        "просмотр аниме": "Нажмите для подробностей"
-    }
+    event_item_test = {}
     #event_image_records = ""
 
     image_path = ""
@@ -118,6 +116,7 @@ class TestNavigationDrawer(MDApp):
 
     def on_start(self):
         self.record_on_data()
+        self.image_path = ""
 
         conn = sqlite3.connect("fgh.db")
 
@@ -134,61 +133,59 @@ class TestNavigationDrawer(MDApp):
 
 
     def on_save_event_click(self, text1, text2, text3):
-
-        conn = sqlite3.connect("fgh.db")
-
-        pudge = conn.cursor()
-
-        pudge.execute(f"INSERT INTO eventbase VALUES (?,?)", (self.root.ids.text_user1.text, self.image_path))
-        # pudge.execute("INSERT INTO eventbase VALUES (:fgh)",
-        #               {
-        #                   "name": a,
-        #               })
-        # pudge.execute("INSERT INTO eventbase VALUES (:fgh)",
-        #               {
-        #                   "link_image_event": b,
-        #               })
-        print(self.image_path)
-
-        conn.commit()
-
-        conn.close()
-
-
-        container = Content(text=text2, secondary_text=text3)
-
-        if self.image_path == "":
-            container.add_widget(IconLeftWidget(icon="calendar-alert"))
-        else:
-            container.add_widget(IconLeftWidget(icon=self.image_path))
-        self.dir_list.append(container)
-        if text2 == "":
-            text2 = " "
-        if text3 == "":
-            text3 = " "
         if text1 != "":
-            self.root.screen_manager.current = "main_screen"
-            if self.image_path == "":
-                self.root.ids.event_list.add_widget(MDExpansionPanel(icon="calendar-alert",
-                                                                     content=container,
-                                                                     panel_cls=MDExpansionPanelTwoLine(
-                                                                         text=text1,
-                                                                         secondary_text="Нажмите для подробностей"
-                                                                     )))
-            else:
-                self.root.ids.event_list.add_widget(MDExpansionPanel(icon=self.image_path,
-                                                                     content=container,
-                                                                     panel_cls=MDExpansionPanelTwoLine(
-                                                                         text=text1,
-                                                                         secondary_text="Нажмите для подробностей"
-                                                                     )))
-            #вот тут будет сохрание картинки
+            conn = sqlite3.connect("fgh.db")
 
-            self.root.ids.text_user1.text = ""
-            self.root.ids.text_user2.text = ""
-            self.root.ids.text_user3.text = ""
-            shutil.copy(self.image_path,"/Purchaser_a/image_event/")
-            self.image_path = ""
+            pudge = conn.cursor()
+
+            pudge.execute(f"INSERT INTO eventbase VALUES (?,?)", (self.root.ids.text_user1.text, self.image_path))
+            print(self.image_path)
+
+            conn.commit()
+
+            conn.close()
+
+
+            container = Content(text=text2, secondary_text=text3)
+
+            if self.image_path == "":
+                container.add_widget(IconLeftWidget(icon="calendar-alert"))
+            else:
+                container.add_widget(IconLeftWidget(icon=self.image_path))
+            self.dir_list.append(container)
+            if text2 == "":
+                text2 = " "
+            if text3 == "":
+                text3 = " "
+            if text1 != "":
+                self.root.screen_manager.current = "main_screen"
+                if self.image_path == "":
+                    self.root.ids.event_list.add_widget(MDExpansionPanel(icon="",
+                                                                         content=container,
+                                                                         panel_cls=MDExpansionPanelTwoLine(
+                                                                             text=text1,
+                                                                             secondary_text="Нажмите для подробностей"
+                                                                         )))
+                else:
+                    self.root.ids.event_list.add_widget(MDExpansionPanel(icon=self.image_path,
+                                                                         content=container,
+                                                                         panel_cls=MDExpansionPanelTwoLine(
+                                                                             text=text1,
+                                                                             secondary_text="Нажмите для подробностей"
+                                                                         )))
+                #вот тут будет сохрание картинки
+                if self.image_path != "":
+                    shutil.copy(self.image_path,"/Purchaser_a/image_event/")
+                else:
+                    pass
+                    #shutil.copy("", "/Purchaser_a/image_event/")
+
+                self.root.ids.text_user1.text = ""
+                self.root.ids.text_user2.text = ""
+                self.root.ids.text_user3.text = ""
+                self.image_path = ""
+        else:
+            pass
 
 
     def record_on_data(self):
@@ -215,9 +212,9 @@ class TestNavigationDrawer(MDApp):
         #     list_photo_event.append(path)
 
         #print(str(list_photo_event[index_photo])+" мы именно тут")
-        for image_event in image_events:
-            print(type(image_event[0]))
-            print(image_event[0])
+        # for image_event in image_events:
+        #     print(type(image_event[0]))
+        #     print(image_event[0])
         #for image_event in image_events:
         for items,image_event in zip(self.event_item_test.keys(), image_events):
             try:
@@ -244,7 +241,7 @@ class TestNavigationDrawer(MDApp):
 
         pudge = conn.cursor()
 
-        pudge.execute("DELETE FROM eventbase WHERE rowid > 0")
+        pudge.execute("DELETE FROM eventbase WHERE rowid > 10")
 
         #ниже_обновление_данных
         # pudge.execute("UPDATE eventbase SET fgh = обновление конкретной строки например чел хочет конкретно так изменить 5тое мероприятие")
