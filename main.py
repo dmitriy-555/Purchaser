@@ -82,6 +82,7 @@ class TestNavigationDrawer(MDApp):
     event_item_test = {
         "просмотр аниме": "Нажмите для подробностей"
     }
+    #event_image_records = ""
 
     image_path = ""
 
@@ -123,8 +124,8 @@ class TestNavigationDrawer(MDApp):
         pudge = conn.cursor()
 
         pudge.execute("""CREATE TABLE IF NOT EXISTS eventbase(
-                            event_id INTEGER,
-                            name text) 
+                            name text,
+                            link_image_event text) 
                          """)
 
         conn.commit()
@@ -138,10 +139,16 @@ class TestNavigationDrawer(MDApp):
 
         pudge = conn.cursor()
 
-        pudge.execute("INSERT INTO eventbase VALUES (:fgh)",
-                      {
-                          "fgh": self.root.ids.text_user1.text,
-                      })
+        pudge.execute(f"INSERT INTO eventbase VALUES (?,?)", (self.root.ids.text_user1.text, self.image_path))
+        # pudge.execute("INSERT INTO eventbase VALUES (:fgh)",
+        #               {
+        #                   "name": a,
+        #               })
+        # pudge.execute("INSERT INTO eventbase VALUES (:fgh)",
+        #               {
+        #                   "link_image_event": b,
+        #               })
+        print(self.image_path)
 
         conn.commit()
 
@@ -175,6 +182,7 @@ class TestNavigationDrawer(MDApp):
                                                                          text=text1,
                                                                          secondary_text="Нажмите для подробностей"
                                                                      )))
+            #вот тут будет сохрание картинки
 
             self.root.ids.text_user1.text = ""
             self.root.ids.text_user2.text = ""
@@ -195,18 +203,25 @@ class TestNavigationDrawer(MDApp):
         for record in records:
             self.event_item_test[record[0]] = "Нажмите для подробностей"
 
-        directory = "/Purchaser_a/image_event/"
-        list_photo_event = []
-        for path in Path(directory).iterdir():
-            list_photo_event.append(path)
-        index_photo = -1
-        print(str(list_photo_event[index_photo]))
+        pudge.execute("SELECT link_image_event FROM eventbase")
+        image_events = pudge.fetchall()
+        #print(image_events)
 
+        # directory = "/Purchaser_a/image_event/"
+        # list_photo_event = []
+        #index_photo = -1
 
-        for items in self.event_item_test.keys():
-            index_photo += 1
+        # for path in Path(directory).iterdir():
+        #     list_photo_event.append(path)
+
+        #print(str(list_photo_event[index_photo])+" мы именно тут")
+        for image_event in image_events:
+            print(type(image_event[0]))
+            print(image_event[0])
+        #for image_event in image_events:
+        for items,image_event in zip(self.event_item_test.keys(), image_events):
             try:
-                self.root.ids.event_list.add_widget(MDExpansionPanel(icon=str(list_photo_event[index_photo]),
+                self.root.ids.event_list.add_widget(MDExpansionPanel(icon=image_event[0],
                                                                      content=Content(text='просто так проверка',
                                                                                      secondary_text='Это образец но 2'),
                                                                      panel_cls=MDExpansionPanelTwoLine(
@@ -229,7 +244,7 @@ class TestNavigationDrawer(MDApp):
 
         pudge = conn.cursor()
 
-        pudge.execute("DELETE FROM eventbase WHERE rowid > 5")
+        pudge.execute("DELETE FROM eventbase WHERE rowid > 0")
 
         #ниже_обновление_данных
         # pudge.execute("UPDATE eventbase SET fgh = обновление конкретной строки например чел хочет конкретно так изменить 5тое мероприятие")
@@ -238,6 +253,20 @@ class TestNavigationDrawer(MDApp):
 
         conn.close()
         print("Удаление выполнено")
+
+
+    #добавление колонны
+    def add_column(self):
+        conn = sqlite3.connect("fgh.db")
+
+        pudge = conn.cursor()
+
+        pudge.execute("ALTER TABLE eventbase ADD COLUMN link_image_event text")
+
+        conn.commit()
+
+        conn.close()
+        print("Таблица обновилась")
 
     def on_save(self, instance, value, date_range):
         self.root.ids.text_user3.text = value.strftime("%d-%m-%Y")
