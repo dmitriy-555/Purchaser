@@ -124,7 +124,8 @@ class TestNavigationDrawer(MDApp):
 
         pudge.execute("""CREATE TABLE IF NOT EXISTS eventbase(
                             name text,
-                            link_image_event text) 
+                            link_image_event text
+                            time_event text) 
                          """)
 
         conn.commit()
@@ -138,8 +139,9 @@ class TestNavigationDrawer(MDApp):
 
             pudge = conn.cursor()
 
-            pudge.execute(f"INSERT INTO eventbase VALUES (?,?)", (self.root.ids.text_user1.text, self.image_path))
+            pudge.execute(f"INSERT INTO eventbase VALUES (?,?,?)", (self.root.ids.text_user1.text, self.image_path, self.root.ids.text_user3.text))
             print(self.image_path)
+            print(self.root.ids.text_user3)
 
             conn.commit()
 
@@ -180,6 +182,7 @@ class TestNavigationDrawer(MDApp):
                     pass
                     #shutil.copy("", "/Purchaser_a/image_event/")
 
+                print(1,text1," ",2,text2," ",3,text3)
                 self.root.ids.text_user1.text = ""
                 self.root.ids.text_user2.text = ""
                 self.root.ids.text_user3.text = ""
@@ -194,11 +197,17 @@ class TestNavigationDrawer(MDApp):
 
         pudge = conn.cursor()
 
+
         pudge.execute("SELECT name FROM eventbase")
         records = pudge.fetchall()
 
+        pudge.execute("SELECT time_event FROM eventbase")
+        record_data_event = str(pudge.fetchall())[3:][:-4]
+        #КОСТЫЛЬ ТУТ НАДО ОБХОДИТЬСЯ БЕЗ СРЕЗОВ, НО В ЦЕЛОМ И ТАК РАБОТАЕТ
+        #ДОБАВОЧКА НЕ РАБОТАЕТ
+
         for record in records:
-            self.event_item_test[record[0]] = "Нажмите для подробностей"
+            self.event_item_test[record[0]] = record_data_event
 
         pudge.execute("SELECT link_image_event FROM eventbase")
         image_events = pudge.fetchall()
@@ -216,7 +225,7 @@ class TestNavigationDrawer(MDApp):
         #     print(type(image_event[0]))
         #     print(image_event[0])
         #for image_event in image_events:
-        for items,image_event in zip(self.event_item_test.keys(), image_events):
+        for items,image_event, in zip(self.event_item_test.keys(), image_events):
             try:
                 self.root.ids.event_list.add_widget(MDExpansionPanel(icon=image_event[0],
                                                                      content=Content(text='просто так проверка',
@@ -258,7 +267,7 @@ class TestNavigationDrawer(MDApp):
 
         pudge = conn.cursor()
 
-        pudge.execute("ALTER TABLE eventbase ADD COLUMN link_image_event text")
+        pudge.execute("ALTER TABLE eventbase ADD COLUMN time_event text")
 
         conn.commit()
 
